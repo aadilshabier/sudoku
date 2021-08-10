@@ -1,21 +1,38 @@
 # sudoku
 
-A sudoku solver written in C using backtracking
+A sudoku solver written in C using backtracking algorithm
 
-### Instructions
+### Instructions:
 
 1. Clone the repository locally and move into the directory
 
-```sh
-$ git clone https://github.com/aadilshabier/sudoku.git && cd sudoku
-```
+    ```sh
+    $ git clone https://github.com/aadilshabier/sudoku.git && cd sudoku
+    ```
 
-2. Compile the project
-```sh
-$ make
-```
+1. Compile the project
+    ```sh
+    $ make
+    ```
 
-3. Run the project to solve the given examples in sudoku.txt (replace N with any number from 1 to 50)
-```sh
-$ ./sudoku N
-```
+1. Run the executable
+    ```sh
+    $ ./sudoku file.txt
+    ```
+
+1. Run the help command for help about different arguments and flags
+    ```sh
+    $ ./sudoku -h
+    ```
+
+1. You can also install the executable to `/usr/local/bin`
+    ```sh
+    $ sudo make install
+    ```
+    __Note__: Requires sudo permissions
+    
+1. To uninstall, run
+    ```sh
+    $ sudo make uninstall
+    ```
+    __Note__: Requires sudo permissions
