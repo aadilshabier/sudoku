@@ -1,3 +1,4 @@
 *.o
 sudoku
 session.vim
+build/

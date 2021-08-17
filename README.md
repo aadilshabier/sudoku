@@ -9,30 +9,18 @@ A sudoku solver written in C using backtracking algorithm
     ```sh
     $ git clone https://github.com/aadilshabier/sudoku.git && cd sudoku
     ```
-
-1. Compile the project
+1. There are two different ways to build the project:  
+    I. Meson
+      ```sh
+      $ meson build && ninja -C build         
+      ```
+      The binary executable will be generated in the `build` directory.  
+    II. This one liner
+      ```sh
+      $ cc -Wall -Wextra -pedantic --std=c11 -O3 -Iinclude -o main src/main.c src/sudoku.c
+      ```
+      The binary exectable will be generated in the parent directory.
+1. The `example` script can be used to get some example puzzles to test the program, it contains 50 puzzles 
     ```sh
-    $ make
-    ```
-
-1. Run the executable
-    ```sh
-    $ ./sudoku file.txt
-    ```
-
-1. Run the help command for help about different arguments and flags
-    ```sh
-    $ ./sudoku -h
-    ```
-
-1. You can also install the executable to `/usr/local/bin`
-    ```sh
-    $ sudo make install
-    ```
-    __Note__: Requires sudo permissions
-    
-1. To uninstall, run
-    ```sh
-    $ sudo make uninstall
-    ```
-    __Note__: Requires sudo permissions
+    $ ./example 12 | ./sudoku
+    ``` 

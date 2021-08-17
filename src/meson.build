@@ -1,0 +1,1 @@
+sources_list += files('main.c', 'sudoku.c')
