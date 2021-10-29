@@ -48,6 +48,7 @@ int main(int argc, char* argv[])
 	FILE *infile, *outfile;
 	bool format, infile_given;
 
+	infile_given = false; 
 	outfile = stdout;
 	format = false;
 
