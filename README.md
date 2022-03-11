@@ -17,7 +17,7 @@ A sudoku solver written in C using backtracking algorithm
       The binary executable will be generated in the `build` directory.  
     II. This one liner
       ```sh
-      $ cc -Wall -Wextra -pedantic --std=c11 -O3 -Iinclude -o main src/main.c src/sudoku.c
+      $ cc -Wall -Wextra -pedantic --std=c11 -O3 -Iinclude -o sudoku src/main.c src/sudoku.c
       ```
       The binary exectable will be generated in the parent directory.
 1. The `example` script can be used to get some example puzzles to test the program, it contains 50 puzzles 
