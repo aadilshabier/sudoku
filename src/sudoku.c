@@ -7,10 +7,15 @@
 
 //STATIC FUNCTIONS DECLARATION
 
-/*Gets next free space on the board and saves the row and coloumn to 'row'
- * and 'col'. Returns true if found else false
+/* Returns the number of ones in the number
  */
-static bool get_next_free(sudoku_t const *board, size_t *row, size_t *col);
+static int num_ones(uint16_t n);
+
+/* Gets next free space on the board with the least amoung of possibilities
+ * and saves the row and coloumn to 'row' and 'col'.
+ * Returns true if a square is found else false
+ */
+static bool get_next_square(sudoku_t const *board, size_t *row, size_t *col);
 
 /*Returns a bitmap of possible value for the given position
  */
@@ -26,6 +31,7 @@ static void remove_value(sudoku_t *board, size_t row, size_t col);
 
 
 //FUNCTION IMPLEMENTATION
+
 void get_board( FILE *infile, sudoku_t *board )
 {
 	//Zero initialize
@@ -98,19 +104,42 @@ void print_board( FILE *outfile, sudoku_t const *board, const bool format)
 	}
 }
 
-static bool get_next_free( sudoku_t const *board, size_t *row, size_t *col )
+static int num_ones( uint16_t n )
 {
+	// Brian Kernighan's Algorithm
+	int c = 0;
+	while ( n ) {
+		n = n & (n-1);
+		c++;
+	}
+	return c;
+}
+
+static bool get_next_square( sudoku_t const *board, size_t *row, size_t *col )
+{
+	int min_pos = 9; // minimum number of possibilities found
 	for (int i=0; i<9; ++i) {
 		for (int j=0; j<9; ++j) {
-			if ( ( board->board[i*9 + j] == 0 )) {
+			if ( board->board[i*9 + j] != 0 )
+				continue;
+
+			int pos = get_possible_values(board, i, j);
+			int num_pos = num_ones(pos);
+			// if only one possibility, return immediately
+			if (num_pos == 1) {
 				*row = i;
 				*col = j;
 				return true;
+			} else if (num_pos < min_pos) {
+				*row = i;
+				*col = j;
+				min_pos = num_pos;
 			}
 		}	
 	}
 
-	return false;
+	// min_pos == 9 indicates nothing has been found
+	return (min_pos != 9);
 }
 
 static uint16_t get_possible_values( sudoku_t const *board, size_t row, size_t col )
@@ -155,17 +184,15 @@ bool solve_board( sudoku_t *board )
 {
 	size_t row, col;
 
-	while ( get_next_free( board, &row, &col ) ) {
+	while ( get_next_square( board, &row, &col ) ) {
 		uint16_t possibilities = get_possible_values( board, row, col );
 		for ( int value=1; value<=9; ++value ) {
 			// Check if 'value' is a possible value for the current square
 			if (  possibilities & 1  ) {
 				set_value( board, row, col, value );
-				if ( solve_board( board ) ) {
+				if ( solve_board( board ) )
 					return true;
-				} else {
-					remove_value( board, row, col );
-				}
+				remove_value( board, row, col );
 			}
 			// Rightshift possibilities to check next value
 			possibilities >>= 1;
@@ -175,4 +202,3 @@ bool solve_board( sudoku_t *board )
 
 	return true;
 }
-
